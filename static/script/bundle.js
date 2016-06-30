@@ -11439,6 +11439,63 @@ return jQuery;
 (function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
 var $ = require('jquery'); //Importo la libreria jquery
 
+
+$( document.getElementById("id_email") ).keyup(function () {
+	var email = document.getElementById("id_email").value;
+	if (email.indexOf("@ikasle.ehu.eus") > -1) {
+		document.getElementById("formAlumno").setAttribute("class", "show");
+		document.getElementById("tipoformulario").setAttribute("value", "alumno");
+		document.getElementById("formProfesor").setAttribute("class", "hide");
+		return 0;
+	}
+	else if(email.indexOf("@ehu.eus") > -1) {
+		document.getElementById("formProfesor").setAttribute("class", "show");
+		document.getElementById("tipoformulario").setAttribute("value", "profesor");
+		document.getElementById("formAlumno").setAttribute("class", "hide");
+		return 0;
+	}
+	else{
+		document.getElementById("tipoformulario").setAttribute("value", "not_valid");
+		document.getElementById("formAlumno").setAttribute("class", "hide");
+		document.getElementById("formProfesor").setAttribute("class", "hide");
+		return 1;
+	}
+})
+
+$( document.getElementById("id_grado") ).keyup(function () {
+	    var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( document.getElementById("id_grado") ).autocomplete({
+        source: function(request, response) {
+        	var results = $.ui.autocomplete.filter(availableTags, request.term);
+        response(results.slice(0, 5));
+    	}
+    });
+  });
+
+
 var descargarCalendario = function() {
   var loadingDiv = $(".loading")[0]; //Cacheo el el bloque donde ira el loading
 
@@ -11465,7 +11522,7 @@ var descargarCalendario = function() {
   create.addEventListener('click', function() {
     $(loadingDiv).removeClass("hidden");
     var link = document.getElementById('downloadlink');
-    var url = "/calendario";
+    var url = "/course_detail";
     //TODO: Esto es lo que teneis que hacer:
     /* 1. La variable data tiene que ser un objeto JSON, con un atributo
     * llamado "asignaturas" que tendra un array con objetos donde ira la informacion de la asignaturas
@@ -11490,15 +11547,6 @@ var descargarCalendario = function() {
     * el comando: "npm install" o "npm install i -D jquery", el segundo funciona seguro, porque he metido jquery en los modulos de node.
     *
     */
-    var data = {
-      "asignaturas": [{
-        "campus": "GI",
-        "codigoGrado": "GINFOR20",
-        "codigoAsig": "25972",
-        "idioma": "es",
-        "grupo": "01"
-      }]
-    }
     var success = function(data) { //Si todo tira bien se ejecuta esto
       link.href = makeTextFile(data["calendario"]);
       link.style.display = 'block';
@@ -11527,13 +11575,5 @@ var descargarCalendario = function() {
 
 exports.descargarCalendario = descargarCalendario;
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/calendar.js","/")
-},{"buffer":1,"jquery":5,"oMfpAn":4}],7:[function(require,module,exports){
-(function (process,global,Buffer,__argument0,__argument1,__argument2,__argument3,__filename,__dirname){
-
-var calendario = require('./calendar'); //Modulo para la gestion del calendario
-
-calendario.descargarCalendario();
-
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ea1f260b.js","/")
-},{"./calendar":6,"buffer":1,"oMfpAn":4}]},{},[7])
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ff4ec99.js","/")
+},{"buffer":1,"jquery":5,"oMfpAn":4}]},{},[6])
