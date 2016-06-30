@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>{% load staticfiles %}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block page_title %}{% endblock %}</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">-->
+    <link rel="icon" type="image/png" href="{% static 'images/icons/favicon.png' %}">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+  </head>
+  <body>
+    <header>
+      <nav class="black" role="navigation">
+        <div class="nav-wrapper">
+          <a id="logo-container" href="{% url 'usuarios:index' %}" class="brand-logo center">Hikasgai</a %>
+          {% if user.is_authenticated %}
+          <ul class="right hide-on-med-and-down">
+            <li><a class="waves-effect waves-light btn" href="{% url 'usuarios:logout' %}">Logout</a></li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li><a class="waves-effect waves-light btn" href="{% url 'usuarios:profile' %}">{{ user.username }}</a></li>
+          </ul>
+          {% else %}
+          <ul class="right hide-on-med-and-down">
+            <li><a class="waves-effect waves-light btn" href="{% url 'usuarios:registro' %}">Registro</a></li>
+          </ul>
+          <ul class="right hide-on-med-and-down">
+            <li><a class='waves-effect waves-light btn' href="{% url 'usuarios:login' %}">Login</a>
+            </li>
+          </ul>
+          {% endif %}
+    </div>
+  </nav>
+  <div class="container">
+    <ul class="side-nav fixed" style="transform: translateX(0%)">
+      <li class="logo black"><img src="http://www.ehu.eus/upv-ehu-theme/images/logoehu.png" alt=""></li>
+      {% if user.is_authenticated %}
+        <li class="bold"><a href="{% url 'asignaturas:courses' %}">Asignaturas</a></li>
+        <li class="bold"><a href="#">Tareas</a></li>
+        <li class="bold"><a href="#">Profesores</a></li>
+    {% endif %}
+    <li class="bold"><a href="{% url 'asignaturas:disenar_calendario' %}">Diseñar calendario</a></li>
+    </ul>
+    </header>
+    <div class="container center-align">
+    {% block content %}
+    {% endblock %}
+    </div>
+    <footer class="page-footer">
+      <div class="container center-align">
+      <div class="container center-align">
+        <div class="row">  Y aquí un footer </div>
+      </div>
+      </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script type="text/javascript" src="{% static 'script/bundle.js' %}"></script>
+    </footer>
+  </body>
+
+</html>

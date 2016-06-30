@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container center-align">
+<div class="row"></div>
+<h6 class="left-align">Todos los campos son obligatorios</h6>
+  <form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="hidden" name="tipo" value="not_valid" id="tipoformulario">
+    {{user_form.as_p}}
+    <div class="" id="grado">
+        <label class="active left" for="id_grado">Grado(debe seleccionarlo de la lista):</label>
+        <input id="id_grado" type="text" class="ui-widget" name="grado">
+    </div>
+    <div class="hide" id="formAlumno">
+        <h3>Registro Alumno</h3>
+        {{alumno_form.as_p}}
+    </div>
+    <div class="hide" id="formProfesor">
+        <h3>Registro Profesor</h3>
+        {{profesor_form.as_p}}
+    </div>
+    <div class="row col s3 center-align">
+    <button type="submit" class="waves-effect waves-light btn-large u-full-width">Registrarse</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

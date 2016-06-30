@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="row"></div>
+<div class="row"></div>
+
+<div class="container left-align">
+<div class="card-panel blue col s2">
+<!--<img src="{{ user.perfil.avatar }}" alt="" class="circle responsive-img">-->
+</div>
+<div class="row">
+<div class="col s5 offset-s3">
+	Nombre de usuario: {{ user.username }}
+	</div>
+	<div class="col s1">
+	<a href="#" class="left-align"><i class="small material-icons">mode_edit</i></a>
+</div>
+</div>
+<div class="row">
+<div class="col s5 offset-s3">
+	Nombre real: {{ user.first_name }} {{ user.last_name }}
+	</div>
+		<div class="col s1">
+	<a href="#" class="left-align"><i class="small material-icons">mode_edit</i></a>
+</div>
+</div>
+<div class="row">
+<div class="col s5 offset-s3">
+	Correo EHU: {{ user.email }}
+	</div>
+		<div class="col s1">
+	<a href="#" class="left-align"><i class="small material-icons">mode_edit</i></a>
+</div>
+</div>
+<div class="row">
+<div class="col s5 offset-s3">
+	Correo Gmail: {{ user.perfil.cuentaGmail }}
+	</div>
+		<div class="col s1">
+	<a href="#" class="left-align"><i class="small material-icons">mode_edit</i></a>
+</div>
+</div>
+<div class="row">
+<div class="col s5 offset-s3">
+	SGSSI: 
+	</div>
+		<div class="col s1">
+	<a href="{% url 'asignaturas:course_detail' %}" class="left-align"><i class="small material-icons">mode_edit</i></a>
+</div>
+</div>
+</div>
+
+{% endblock %}

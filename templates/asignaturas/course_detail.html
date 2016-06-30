@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+<div class="row">
+	<h3>Asignatura</h3>
+</div>
+	<div class="row center-align">
+		Pulsa aquí para descargar calendario: 
+	<a href="" class="" type="" download="calendario.ics" id="downloadlink"><i class="small material-icons">play_for_work</i></a>
+</div>
+<button id="create" class="btn waves-effect waves-light">Generar calendario</button>
+<a download="calendario.ics" id="downloadlink" style="display: none"><i class="small material-icons">play_for_work</i></a>
+<span class="loading style-3 hidden"></span>
+	</div>
+
+{% endblock %}
