@@ -1,64 +1,79 @@
 import datetime
 from icalendar import Calendar, Event, vCalAddress, vText, vFrequency, vRecur
 import json
-def switch_dias(dia):
-    """
-    Funcion que hace de swicth porque no se les ocurrio hacerlo a los que crearon el lenguaje
-     y tengo que estar haciendolo yo aunque ahora no la uso
-    """
-    switcher = {
-        1: "lunes",
-        2: "martes",
-        3: "miercoles",
-        4: "jueves",
-        5: "viernes"
+
+# Input: JSON estandar de calendario
+# Output: Contenido en formato iCal
+#   Anade el curso academico al calendario y la fecha de creacion
+#   Anade un evento por cada fecha de inicio y fin de cuatrimestre
+def createCalendarJson(dataDict):
+    Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre_year'],dataDict['inicioPrimerCuatrimestre_month'],dataDict['inicioPrimerCuatrimestre_day'])
+    Fc1 = dateFormat(dataDict['finPrimerCuatrimestre_year'],dataDict['finPrimerCuatrimestre_month'],dataDict['finPrimerCuatrimestre_day'])
+    Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre_year'],dataDict['inicioSegundoCuatrimestre_month'],dataDict['inicioSegundoCuatrimestre_day'])
+    Fc2 = dateFormat(dataDict['finSegundoCuatrimestre_year'],dataDict['finSegundoCuatrimestre_month'],dataDict['finSegundoCuatrimestre_day'])
+    str(Ic1)
+
+    data={
+        'cursoAcademico' : dataDict['cursoAcademico'],
+        'inicioCuatrimestreUno' : Ic1,
+        'finCuatrimestreUno' : Fc1,
+        'inicioCuatrimestreDos' : Ic2,
+        'finCuatrimestreDos' : Fc2
     }
-    return switcher.get(dia, "lunes", titulo)
+    return json.dumps(data)
 
-def __eventsByType(data, cal, titulo, calendarioSemanal):
-    """
-    Funcion para aniadir clases al calendario
-    """
-    for clases in data:
-        for dias in clases["dias_semanas"]:
-            event = Event()
-            horas = dias["horas"].split("-")
-            hInicial = horas[0].split(":")
-            hFinal = horas[1].split(":")
-            rangosemanas = clases["rango_semanas"].split("-") #Numero de semanas que se va a repetir
+def transformarJSON(datos):
+    return json.dumps(datos)
 
-            inicioSemana = calendarioSemanal[int(rangosemanas[0])-1]
-
-            horainicio = datetime.datetime(int(inicioSemana["anio"]), int(inicioSemana["mes"]), int(inicioSemana["dia"]), int(hInicial[0]), int(hInicial[1]), 0) #Hora a la que empieza
-            horaFin = datetime.datetime(int(inicioSemana["anio"]), int(inicioSemana["mes"]), int(inicioSemana["dia"]), int(hFinal[0]), int(hFinal[1]), 0) #Hora a la que termina
-            event.add('dtstart', horainicio + datetime.timedelta(days=int(dias["dia"]) - 1))
-            event.add('dtend', horainicio + datetime.timedelta(days=int(dias["dia"]) - 1))
-            event.add('summary', titulo)
-
-            event.add('rrule', {'freq': 'weekly', 'count': int(rangosemanas[1]) - int(rangosemanas[0])})
-            event['uid'] = str(horainicio) + '@magnasis.com'
-
-            cal.add_component(event) #Aniado el evento al calendario
-    return cal
-
-def createCalendar(data, calendarioSemanal):
-    """
-    Aqui es donde la magia pasa
-    """
+def createCalendar(data):
     try:
         cal = Calendar()
-
-        for item in data["asignaturas"]:
-            cal = __eventsByType(item["teorico"], cal, item["nombre"], calendarioSemanal)
-            cal = __eventsByType(item["practico"], cal, item["nombre"], calendarioSemanal)
-
-        cal_content = cal.to_ical()
-        #with open("meeting.ics", 'wb') as f:
-        #    f.write(cal_content)
+        # anade al calendario el curso academico
+        data = createCalendarJson(data)
+        print data['inicioCuatrimestreUno']
+        print data['inicioCuatrimestreDos']
+        cal.add('prodid', data['cursoAcademico'])
+        # anade a calendario la fecha de creacion
+        cal.add('dtstamp', datetime.datetime.today())
+        # anade los eventos de inicio y fin de cuatrimestre
+        cal.add_component(nuevo_evento(data['inicioCuatrimestreUno'],data['inicioCuatrimestreUno'],'Inicio Primer Cuatrimestre'))
+        cal.add_component(nuevo_evento(data['finCuatrimestreUno'],data['finCuatrimestreUno'],'Fin Primer Cuatrimestre'))
+        cal.add_component(nuevo_evento(data['inicioCuatrimestreDos'],data['inicioCuatrimestreDos'],'Inicio Segundo Cuatrimestre'))
+        cal.add_component(nuevo_evento(data['finCuatrimestreDos'],data['finCuatrimestreDos'],'Fin Segundo Cuatrimestre'))
+        #cal_content = cal.to_ical()
         return cal_content
     except Exception as e:
-        """
-         Que lo gestionen los de magnasis
-         """
-        print("Si te sale este mensaje es porque algo has hecho mal, tu culpa tio")
+        print("Error al crear calendario")
         print (str(e))
+# Input: Fechas inicio y fin en formato estandar de JSON calendario "YYYY/MM/DD WED"
+#         Summary descripcion texto del evento
+#         Extension : Lugar del evento
+# Output: Evento de dia entero con parametros de entrada y UID = fecha inicio
+def nuevo_evento(fechaInicio, fechaFin, Summary):
+    try:
+        event = Event()
+        fechaI = fechaInicio.split(' ')[0] + " 00:00:00"
+        fechaF = fechaFin.split(' ')[0] + " 23:59:59"
+        event['dtstart']= formatodata(fechaI)
+        event['dtend']= formatodata(fechaF)
+        event['summary']= Summary
+        event['uid'] = fechaI
+        return event
+    except Exception as e:
+        print("Error al crear evento")
+        print (str(e))
+
+# Input: Fecha en formato YYYY/MM/DD HH:MM:SS
+# Output: Fecha en formato YYYYMMDDTHHMMSS adecuado para icalendar
+def formatodata(date):
+    d = datetime.datetime.strptime(date,'%Y/%m/%d %H:%M:%S')
+    return d.strftime('%Y%m%dT%H%M%S')
+
+# Input: Fecha en formato YYYY/MM/DD
+# Output: Fecha en formato YYYY/MM/DD WED
+def dateFormat(year,month,day):
+    d = datetime.datetime(int(year), int(month), int(day))
+    value = d.strftime('%Y/%m/%d')
+    wd_list = [" SUN"," MON"," TUE"," WED"," THU"," FRI"," SAT"];
+    weekday = wd_list[d.weekday()]
+    return d.strftime('%Y/%m/%d') + weekday
