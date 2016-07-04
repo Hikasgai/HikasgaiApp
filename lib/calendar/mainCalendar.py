@@ -2,10 +2,10 @@ import datetime
 from icalendar import Calendar, Event, vCalAddress, vText, vFrequency, vRecur
 import json
 
-# Input: JSON estandar de calendario
-# Output: Contenido en formato iCal
-#   Anade el curso academico al calendario y la fecha de creacion
-#   Anade un evento por cada fecha de inicio y fin de cuatrimestre
+
+
+# Input: diccionario con la informacion basica del calendario recibida del formulario
+# Output: calendario en formato JSON
 def createCalendarJson(dataDict):
     Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre_year'],dataDict['inicioPrimerCuatrimestre_month'],dataDict['inicioPrimerCuatrimestre_day'])
     Fc1 = dateFormat(dataDict['finPrimerCuatrimestre_year'],dataDict['finPrimerCuatrimestre_month'],dataDict['finPrimerCuatrimestre_day'])
@@ -18,13 +18,22 @@ def createCalendarJson(dataDict):
         'inicioCuatrimestreUno' : Ic1,
         'finCuatrimestreUno' : Fc1,
         'inicioCuatrimestreDos' : Ic2,
-        'finCuatrimestreDos' : Fc2
+        'finCuatrimestreDos' : Fc2,
+        'diasSemanalesNoLectivos':[],
+        'diasSinClase':[],
+        'periodosHorarioEspecial':[],
+        'semanasExcluidas':[],
+        'intercambioDias':[]
     }
     return json.dumps(data)
 
 def transformarJSON(datos):
     return json.dumps(datos)
 
+# Input: JSON estandar de calendario
+# Output: Contenido en formato iCal
+#   Anade el curso academico al calendario y la fecha de creacion
+#   Anade un evento por cada fecha de inicio y fin de cuatrimestre
 def createCalendar(data):
     try:
         cal = Calendar()
@@ -45,6 +54,7 @@ def createCalendar(data):
     except Exception as e:
         print("Error al crear calendario")
         print (str(e))
+
 # Input: Fechas inicio y fin en formato estandar de JSON calendario "YYYY/MM/DD WED"
 #         Summary descripcion texto del evento
 #         Extension : Lugar del evento
@@ -65,7 +75,7 @@ def nuevo_evento(fechaInicio, fechaFin, Summary):
 
 # Input: Fecha en formato YYYY/MM/DD HH:MM:SS
 # Output: Fecha en formato YYYYMMDDTHHMMSS adecuado para icalendar
-def formatodata(date):
+def icalDate(date):
     d = datetime.datetime.strptime(date,'%Y/%m/%d %H:%M:%S')
     return d.strftime('%Y%m%dT%H%M%S')
 
@@ -74,6 +84,62 @@ def formatodata(date):
 def dateFormat(year,month,day):
     d = datetime.datetime(int(year), int(month), int(day))
     value = d.strftime('%Y/%m/%d')
-    wd_list = [" SUN"," MON"," TUE"," WED"," THU"," FRI"," SAT"];
+    wd_list = [" SU"," MO"," TU"," WE"," TH"," FR"," SA"];
     weekday = wd_list[d.weekday()]
     return d.strftime('%Y/%m/%d') + weekday
+
+
+
+# Anadir eventos al calendario progresivamente
+'''
+#Anadir dias semanales no lectivos (MO, TU, WE, TH...)
+def anadirDiasNoLectivos(dataDict, data):
+	data['diasSemanalesNoLectivos'].append(dataDict['Diassemanalesnolectivos1'])
+    data['diasSemanalesNoLectivos'].append(dataDict['Diassemanalesnolectivos2'])
+	return data
+
+#Anadir dias sin clase
+def anadirDiasSinClase(dataDict, data):
+    fecha = dateFormat(dataDict['Fechadiasinclase1_year'],dataDict['Fechadiasinclase1_month'],dataDict['Fechadiasinclase1_day'])
+    dia={
+        'motivo': dataDict['Motivodiassinclase1'],
+        'fecha': fecha
+    }
+	data['diasSinClase'].append(dia)
+    return data
+
+#Anadir periodos de horario especial
+def anadirHorarioEspecial(dataDict,data):
+    fechaI = dateFormat(dataDict['Fechaisemanashorarioespecial1_year'],dataDict['Fechaisemanashorarioespecial1_month'],dataDict['Fechaisemanashorarioespecial1_day'])
+    fechaF = dateFormat(dataDict['Fechafsemanashorarioespecial1_year'],dataDict['Fechafsemanashorarioespecial1_month'],dataDict['Fechafsemanashorarioespecial1_day'])
+
+    periodo={
+        'fechaInicio':fechaI,
+        'fechaFin':fechaF,
+        'motivo': dataDict['Motivosemanashorarioespecial1']
+    }
+    data['periodosHorarioEspecial'].append(periodo)
+    return data
+
+#Anadir semanas excluidas
+def anadirSemanasExcluidas(dataDict, data):
+    fechaI = dateFormat(dataDict['Fechaisemanasexcluidas1_year'],dataDict['Fechaisemanasexcluidas1_month'],dataDict['Fechaisemanasexcluidas1_day'])
+
+    semana={
+        'primerDiaSemana': fechaI,
+        'motivo': dataDict['Motivosemanasexcluidas1']
+    }
+    data['semanasExcluidas'].append(semana)
+    return data
+
+#Anadir dias de horario intercambiado
+def anadirDiasIntercambioa(dataDict, dias):
+    fecha = dateFormat(dataDict['diaOriginal1_year'],dataDict['diaOriginal1_month'],dataDict['diaOriginal1_day'])
+
+    dia={
+        'diaOriginal':fecha,
+        'diaPorQueSeCambia':dataDict['diaporQueSeCambia1']
+    }
+    data['intercambioDias'].append(dia)
+    return data
+'''
