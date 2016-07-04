@@ -1,4 +1,17 @@
 {% extends "base.html" %}
+{% block page_title %}
+Diseñar calendario
+{% endblock %}
+{% block script %}
+<script>
+  $(function() {
+    $( ".datepicker" ).pickadate({dateFormat: 'yyyy/mm/dd', 
+      selectMonths: true,
+      selectYears: 5});
+  });
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="container center-align">
 <div class="row"></div>

@@ -7,10 +7,17 @@ import json
 # Input: diccionario con la informacion basica del calendario recibida del formulario
 # Output: calendario en formato JSON
 def createCalendarJson(dataDict):
+    """
     Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre_year'],dataDict['inicioPrimerCuatrimestre_month'],dataDict['inicioPrimerCuatrimestre_day'])
     Fc1 = dateFormat(dataDict['finPrimerCuatrimestre_year'],dataDict['finPrimerCuatrimestre_month'],dataDict['finPrimerCuatrimestre_day'])
     Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre_year'],dataDict['inicioSegundoCuatrimestre_month'],dataDict['inicioSegundoCuatrimestre_day'])
     Fc2 = dateFormat(dataDict['finSegundoCuatrimestre_year'],dataDict['finSegundoCuatrimestre_month'],dataDict['finSegundoCuatrimestre_day'])
+    """
+    Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre'])
+    Fc1 = dateFormat(dataDict['finPrimerCuatrimestre'])
+    Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre'])
+    Fc2 = dateFormat(dataDict['finSegundoCuatrimestre'])
+
     str(Ic1)
 
     data={
@@ -81,10 +88,9 @@ def icalDate(date):
 
 # Input: Fecha en formato YYYY/MM/DD
 # Output: Fecha en formato YYYY/MM/DD WED
-def dateFormat(year,month,day):
-    d = datetime.datetime(int(year), int(month), int(day))
-    value = d.strftime('%Y/%m/%d')
-    wd_list = [" SU"," MO"," TU"," WE"," TH"," FR"," SA"];
+def dateFormat(date):
+    d = datetime.datetime.strptime(date, '%d %B, %Y')
+    wd_list = [" MON"," TUE"," WED"," THU"," FRI"," SAT", " SUN"];
     weekday = wd_list[d.weekday()]
     return d.strftime('%Y/%m/%d') + weekday
 
