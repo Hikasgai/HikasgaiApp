@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -9,10 +9,45 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 from lib.calendar import mainCalendar
 from lib.ehudata import mainData
-from .forms import courseForm1, courseForm2, courseForm3, courseForm4
+from .forms import course_form, diasNoLectivos_form, diasSinClase_form, semanaHorarioEspecial_form, semanasExcluidas_form, diasCambiados_form
+from formtools.wizard.views import SessionWizardView
 
+# El siguiente metodo especifica lo que debe suceder cuando
+# todos los formularios han sido subidos y comprobados
+class ContactWizard(SessionWizardView):
+    def done(self, form_list,form_dict, **kwargs):
+        #
+        return render_to_response('asignaturas/mostrar_calendario.html', {
+            'form_data': [form.cleaned_data for form in form_list],
+        })
 
-@login_required(login_url='/login')	
+    def get_template_names(self):
+        return ['asignaturas/wizardForm.html']
+    """
+    def get_form(self, step=None, data=None, files=None):
+        form = super(ContactWizard, self).get_form(step, data, files)
+
+        # determine the step if not given
+        if step is None:
+            step = self.steps.current
+
+        if step == "0":
+            loan_sessions = self.request.session.get('loan_sessions', None)
+            if loan_sessions != None:
+                loan_sessions = pickle.loads(self.request.session['loan_sessions'])
+            else:
+                loan_sessions = []
+
+            loan_choices = []
+            for loan_session in loan_sessions:
+                loan_choice = (loan_session['number'], loan_session['name'])
+                loan_choices.append(loan_choice)
+
+            ##Pass the data when initing the form, which is the POST
+            form = course_form()
+        return form
+        """
+@login_required(login_url='/login')
 def user_courses(request):
 	return render(request, 'asignaturas/courses.html')
 

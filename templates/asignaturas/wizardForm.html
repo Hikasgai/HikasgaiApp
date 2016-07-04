@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head %}
+{{ wizard.form.media }}
+{% endblock %}
+
+{% block script %}
+<script>
+  $(function() {
+    $( ".datepicker" ).pickadate({dateFormat: 'yyyy/mm/dd',
+      selectMonths: true,
+      selectYears: 5});
+  });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container center-align">
+<div class="row"></div>
+
+<p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+
+<form class="col s12" action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+<table>
+{{ wizard.management_form }}
+{% if wizard.form.forms %}
+    {{ wizard.form.management_form }}
+    {% for form in wizard.form.forms %}
+        {{ form }}
+    {% endfor %}
+{% else %}
+    {{ wizard.form }}
+{% endif %}
+</table>
+
+{% if wizard.steps.prev %}
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">{% trans "first step" %}</button>
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">{% trans "prev step" %}</button>
+{% endif %}
+{% if wizard.steps.next %}
+<button name="wizard_goto_step" type="submit" value="{{ wizard.steps.next }}">{% trans "next step" %}</button>
+{% endif %}
+
+<input type="submit" value="Submit" class="btn btn-primary" />
+
+{% endblock %}
