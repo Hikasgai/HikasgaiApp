@@ -43,6 +43,10 @@
 
 		<div class="row">
 		{{dnl}}
+		{{dsc}}
+		{{phe}}
+		{{se}}
+		{{intd}}
 		</div>
 
 		<div class="row">
@@ -69,7 +73,7 @@
 			<button id="semanahorarioespecial" onClick="toggle_visibility(3)">Añadir semana especial</button>
 		</div>
 
-  		<form id="3" class="col s12" style="display: none" action="semanahorarioespecial" method="POST" enctype="multipart/form-data">
+  		<form id="3" class="col s12" style="display: none" action="periodoshorarioespecial" method="POST" enctype="multipart/form-data">
   		{% csrf_token %}
   		{{semanaHorarioEspecial_form.as_p}}
 		<button id="create" class="btn waves-effect waves-light">Enviar</button>
@@ -81,7 +85,7 @@
 			<button id="semanahorarioespecial" onClick="toggle_visibility(4)">Añadir dias cambiados</button>
 		</div>
 
-  		<form id="4" class="col s12" style="display: none" action="diascambiados" method="POST" enctype="multipart/form-data">
+  		<form id="4" class="col s12" style="display: none" action="intercambiodias" method="POST" enctype="multipart/form-data">
   		{% csrf_token %}
   		{{diasCambiados_form.as_p}}
 		<button id="create" class="btn waves-effect waves-light">Enviar</button>

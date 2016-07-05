@@ -108,6 +108,47 @@ def anadirDiasNoLectivos(dataDict, data):
     data['diasSemanalesNoLectivos'].append(dataDict['diasSemanalesNoLectivos'])
     return data
 
+
+def anadirDiasSinClase(dataDict, data):
+    
+    #PLACEHOLDER
+    fecha = "2016/07/05 MO"
+    dia={
+        'motivo': dataDict['motivoDiasSinClase'],
+        'fecha': fecha
+    }
+    data['diasSinClase'].append(dia)
+    return data
+
+
+def anadirPeriodosHorarioEspecial(dataDict,data):
+
+    #PLACEHOLDER
+    fechaI = "2016/01/01 MO" 
+    fechaF = "2016/01/01 MO"
+
+    periodo={
+        'fechaInicio':fechaI,
+        'fechaFin':fechaF,
+        'motivo': dataDict['motivoSemanasHorarioEspecial']
+    }
+    data['periodosHorarioEspecial'].append(periodo)
+    return data
+
+
+def anadirDiasIntercambio(dataDict, data):
+    
+    #PLACEHOLDER
+    fecha = "2016/01/01 MO"
+
+    dia={
+        'diaOriginal':fecha,
+        'diaPorQueSeCambia':dataDict['diaporQueSeCambia']
+    }
+    data['intercambioDias'].append(dia)
+    return data
+
+
 """
 #Anadir dias sin clase
 def anadirDiasSinClase(dataDict, data):

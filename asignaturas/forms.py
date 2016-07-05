@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.forms.widgets import SelectDateWidget
 from datetime import datetime
+from django.conf import settings
 
 CURSOS = (
     ('2016/2017', '16/17'),
