@@ -56,16 +56,11 @@ def user_courses(request):
 @csrf_exempt
 def disenar_calendario(request):
 	if request.method == 'GET':
-		course_form = courseForm1()
-		return render(request, 'asignaturas/disenar_calendario.html', {'course_form' : course_form})
+		return render(request, 'asignaturas/disenar_calendario.html', {'course_form' : course_form()})
 	else:
 		resultados = request.POST
 		calendarFile = mainCalendar.createCalendarJson(resultados)
         request.session['json'] = json.loads(calendarFile)
-
-        course_form2 = courseForm2()
-        course_form3 = courseForm3()
-        course_form4 = courseForm4()
 
         curso = request.session['json']['cursoAcademico']
         fic1 = request.session['json']['inicioCuatrimestreUno']
@@ -73,4 +68,72 @@ def disenar_calendario(request):
         ffc1 = request.session['json']['finCuatrimestreUno']
         ffc2 = request.session['json']['finCuatrimestreDos']
 
-        return render(request, 'asignaturas/mostrar_calendario.html', {'curso' : curso, 'fic1': fic1, 'ffc1': ffc1, 'fic2':fic2, 'ffc2':ffc2, 'course_form2' : course_form2, 'course_form3' : course_form3, 'course_form4' : course_form4})
+        return render(request, 'asignaturas/editar_calendario.html', {'curso' : curso, 'fic1': fic1, 'ffc1': ffc1, 'fic2':fic2, 'ffc2':ffc2, 'diasNoLectivos_form':diasNoLectivos_form(), 'diasSinClase_form':diasSinClase_form(), 'semanaHorarioEspecial_form':semanaHorarioEspecial_form(), 'diasCambiados_form':diasCambiados_form()})
+
+@csrf_exempt
+def editar_calendario(request):
+
+    curso = request.session['json']['cursoAcademico']
+    fic1 = request.session['json']['inicioCuatrimestreUno']
+    fic2 = request.session['json']['inicioCuatrimestreDos']
+    ffc1 = request.session['json']['finCuatrimestreUno']
+    ffc2 = request.session['json']['finCuatrimestreDos']
+    dnl = request.session['json']['diasSemanalesNoLectivos']
+    """
+        'diasSinClase':[],
+        'periodosHorarioEspecial':[],
+        'semanasExcluidas':[],
+        'intercambioDias':[]
+    """
+
+    return render(request, 'asignaturas/editar_calendario.html', {'dnl':dnl, 'curso' : curso, 'fic1': fic1, 'ffc1': ffc1, 'fic2':fic2, 'ffc2':ffc2, 'diasNoLectivos_form':diasNoLectivos_form(), 'diasSinClase_form':diasSinClase_form(), 'semanaHorarioEspecial_form':semanaHorarioEspecial_form(), 'diasCambiados_form':diasCambiados_form()})
+
+def dias_no_lectivos(request):
+	if request.method == 'GET':
+		return HttpResponseRedirect('/disenarcalendario')
+	else:
+		resultados = request.POST
+		js = mainCalendar.anadirDiasNoLectivos(resultados, request.session['json'])
+		request.session['json'] = js
+		
+		return HttpResponseRedirect("/editarcalendario")
+
+def dias_sin_clase(request):
+	if request.method == 'GET':
+		return HttpResponseRedirect('/disenarcalendario')
+	else:
+		resultados = request.POST
+		js = mainCalendar.anadirDiasSinClase(resultados, request.session['json'])
+		request.session['json'] = js
+		
+		return HttpResponseRedirect("/editarcalendario")
+
+def periodos_horario_especial(request):
+	if request.method == 'GET':
+		return HttpResponseRedirect('/disenarcalendario')
+	else:
+		resultados = request.POST
+		js = mainCalendar.anadirDiasSinClase(resultados, request.session['json'])
+		request.session['json'] = js
+		
+		return HttpResponseRedirect("/editarcalendario")
+
+def semanas_excluidas(request):
+	if request.method == 'GET':
+		return HttpResponseRedirect('/disenarcalendario')
+	else:
+		resultados = request.POST
+		js = mainCalendar.anadirDiasSinClase(resultados, request.session['json'])
+		request.session['json'] = js
+		
+		return HttpResponseRedirect("/editarcalendario")
+
+def intercambio_dias(request):
+	if request.method == 'GET':
+		return HttpResponseRedirect('/disenarcalendario')
+	else:
+		resultados = request.POST
+		js = mainCalendar.anadirDiasSinClase(resultados, request.session['json'])
+		request.session['json'] = js
+		
+		return HttpResponseRedirect("/editarcalendario")

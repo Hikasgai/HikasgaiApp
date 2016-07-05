@@ -13,10 +13,15 @@ def createCalendarJson(dataDict):
     Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre_year'],dataDict['inicioSegundoCuatrimestre_month'],dataDict['inicioSegundoCuatrimestre_day'])
     Fc2 = dateFormat(dataDict['finSegundoCuatrimestre_year'],dataDict['finSegundoCuatrimestre_month'],dataDict['finSegundoCuatrimestre_day'])
     """
-    Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre'])
-    Fc1 = dateFormat(dataDict['finPrimerCuatrimestre'])
-    Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre'])
-    Fc2 = dateFormat(dataDict['finSegundoCuatrimestre'])
+    #Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre'])
+    #Fc1 = dateFormat(dataDict['finPrimerCuatrimestre'])
+    #Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre'])
+    #Fc2 = dateFormat(dataDict['finSegundoCuatrimestre'])
+
+    Ic1 = '2000/10/01 MON'
+    Fc1 = '2000/10/01 MON'
+    Ic2 = '2000/10/01 MON'
+    Fc2 = '2000/10/01 MON'
 
     str(Ic1)
 
@@ -97,13 +102,13 @@ def dateFormat(date):
 
 
 # Anadir eventos al calendario progresivamente
-'''
+
 #Anadir dias semanales no lectivos (MO, TU, WE, TH...)
 def anadirDiasNoLectivos(dataDict, data):
-	data['diasSemanalesNoLectivos'].append(dataDict['Diassemanalesnolectivos1'])
-    data['diasSemanalesNoLectivos'].append(dataDict['Diassemanalesnolectivos2'])
-	return data
+    data['diasSemanalesNoLectivos'].append(dataDict['diasSemanalesNoLectivos'])
+    return data
 
+"""
 #Anadir dias sin clase
 def anadirDiasSinClase(dataDict, data):
     fecha = dateFormat(dataDict['Fechadiasinclase1_year'],dataDict['Fechadiasinclase1_month'],dataDict['Fechadiasinclase1_day'])
@@ -139,7 +144,7 @@ def anadirSemanasExcluidas(dataDict, data):
     return data
 
 #Anadir dias de horario intercambiado
-def anadirDiasIntercambioa(dataDict, dias):
+def anadirDiasIntercambio(dataDict, dias):
     fecha = dateFormat(dataDict['diaOriginal1_year'],dataDict['diaOriginal1_month'],dataDict['diaOriginal1_day'])
 
     dia={
@@ -148,4 +153,4 @@ def anadirDiasIntercambioa(dataDict, dias):
     }
     data['intercambioDias'].append(dia)
     return data
-'''
+"""

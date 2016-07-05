@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block content %}
+
+<script type="text/javascript">
+   function toggle_visibility(id) {
+       var e = document.getElementById(id);
+
+       if (id != "1")
+          document.getElementById(1).style.display = 'none'
+
+       if (id != "2")
+          document.getElementById(2).style.display = 'none'
+
+       if (id != "3")
+          document.getElementById(3).style.display = 'none'
+
+       if (id != "4")
+          document.getElementById(4).style.display = 'none'
+
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+   }
+</script>
+
+<div class="container center-align">
+	<div class="row"></div>
+
+		<div class="row">
+		{{curso}}
+		</div>
+
+		<div class="row">
+		{{fic1}}
+		{{ffc1}}
+		</div>
+
+		<div class="row">
+		{{fic2}}
+		{{ffc2}}
+		</div>
+
+		<div class="row">
+		{{dnl}}
+		</div>
+
+		<div class="row">
+			<button id="diasnolectivos" onClick="toggle_visibility(1)">Añadir dias no lectivos</button>
+		</div>
+
+		<form id="1" class="col s12" style="display: none" action="diasnolectivos" method="POST" enctype="multipart/form-data">
+  		{% csrf_token %}
+  		{{diasNoLectivos_form.as_p}}
+		<button id="create" class="btn waves-effect waves-light">Enviar</button>
+  		</form>
+
+		<div class="row">
+			<button id="diassinclase" onClick="toggle_visibility(2)">Añadir dias sin clase</button>
+		</div>
+
+  		<form id="2" class="col s12" style="display: none" action="diassinclase" method="POST" enctype="multipart/form-data">
+  		{% csrf_token %}
+  		{{diasSinClase_form.as_p}}
+		<button id="create" class="btn waves-effect waves-light">Enviar</button>
+  		</form>
+
+		<div class="row">
+			<button id="semanahorarioespecial" onClick="toggle_visibility(3)">Añadir semana especial</button>
+		</div>
+
+  		<form id="3" class="col s12" style="display: none" action="semanahorarioespecial" method="POST" enctype="multipart/form-data">
+  		{% csrf_token %}
+  		{{semanaHorarioEspecial_form.as_p}}
+		<button id="create" class="btn waves-effect waves-light">Enviar</button>
+  		</form>
+
+
+
+		<div class="row">
+			<button id="semanahorarioespecial" onClick="toggle_visibility(4)">Añadir dias cambiados</button>
+		</div>
+
+  		<form id="4" class="col s12" style="display: none" action="diascambiados" method="POST" enctype="multipart/form-data">
+  		{% csrf_token %}
+  		{{diasCambiados_form.as_p}}
+		<button id="create" class="btn waves-effect waves-light">Enviar</button>
+  		</form>
+
+
+  	</div>
+</div>
+
+{% endblock %}
