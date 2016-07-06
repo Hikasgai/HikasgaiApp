@@ -17,6 +17,15 @@ DIASEMANA = (
     ('SA', 'Sabado'),
     ('SU', 'Domingo')
 )
+DIASEMANAL = (
+    ('MON', 'Lunes'),
+    ('TUE', 'Martes'),
+    ('WED', 'Miercoles'),
+    ('THU', 'Jueves'),
+    ('FRI', 'Viernes'),
+    ('SAT', 'Sabado'),
+    ('SUN', 'Domingo')
+)
 MOTIVOSFIESTAS = (
     ('FiestaNacional', 'Fiesta nacional'),
     ('FiestaAutonomica','Fiesta autonomica'),
@@ -38,17 +47,17 @@ MOTIVOSEXCLUIDAS = (
 #  Ano del curso academico, fechas de inicio e fin de cuatrimestres
 class course_form(forms.Form):
     cursoAcademico = forms.ChoiceField(choices=CURSOS)
-    inicioPrimerCuatrimestre = forms.DateField(widget=forms.TextInput(), required='false')
-    inicioPrimerCuatrimestre.widget.attrs.update({'class': 'datepicker'})
+    inicioPrimerCuatrimestre = forms.DateField(widget=forms.TextInput(), required='true', input_formats=settings.DATE_INPUT_FORMATS)
+    inicioPrimerCuatrimestre.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
 
-    finPrimerCuatrimestre = forms.DateField(widget=forms.TextInput(), required='false')
-    finPrimerCuatrimestre.widget.attrs.update({'class': 'datepicker'})
+    finPrimerCuatrimestre = forms.DateField(widget=forms.TextInput(), required='true', input_formats=settings.DATE_INPUT_FORMATS)
+    finPrimerCuatrimestre.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
 
-    inicioSegundoCuatrimestre = forms.DateField(widget=forms.TextInput(), required='false')
-    inicioSegundoCuatrimestre.widget.attrs.update({'class': 'datepicker'})
+    inicioSegundoCuatrimestre = forms.DateField(widget=forms.TextInput(), required='true', input_formats=settings.DATE_INPUT_FORMATS)
+    inicioSegundoCuatrimestre.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
 
-    finSegundoCuatrimestre = forms.DateField(widget=forms.TextInput(), required='false')
-    finSegundoCuatrimestre.widget.attrs.update({'class': 'datepicker'})
+    finSegundoCuatrimestre = forms.DateField(widget=forms.TextInput(), required='true', input_formats=settings.DATE_INPUT_FORMATS)
+    finSegundoCuatrimestre.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
 
 # Aqui se recoge informacion secundaria como:
 # Dias periodicos din clase, fines de semana, etc
@@ -61,8 +70,8 @@ class diasNoLectivos_form(forms.Form):
 # Dias puntuales sin clase
 # TODO Adaptar formulario para funcionar dinamicamente, poder anadir campos
 class diasSinClase_form(forms.Form):
-    fechaDiaSinClase = forms.DateField(widget=forms.TextInput())
-    fechaDiaSinClase.widget.attrs.update({'class': 'datepicker'})
+    fechaDiaSinClase = forms.DateField(widget=forms.TextInput(), input_formats=settings.DATE_INPUT_FORMATS)
+    fechaDiaSinClase.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
     motivoDiasSinClase = forms.ChoiceField(choices=MOTIVOSFIESTAS)
  
 
@@ -71,10 +80,10 @@ class diasSinClase_form(forms.Form):
 # TODO Adaptar formulario para funcionar dinamicamente, poder anadir campos
 class semanaHorarioEspecial_form(forms.Form):
     motivoSemanasHorarioEspecial = forms.ChoiceField(choices=MOTIVOSESPECIAL)
-    fechaISemanasHorarioEspecial = forms.DateField(widget=forms.TextInput())
-    fechaISemanasHorarioEspecial.widget.attrs.update({'class': 'datepicker'})
-    fechaFSemanasHorarioEspecial = forms.DateField(widget=forms.TextInput())
-    fechaFSemanasHorarioEspecial.widget.attrs.update({'class': 'datepicker'})
+    fechaISemanasHorarioEspecial = forms.DateField(widget=forms.TextInput(), input_formats=settings.DATE_INPUT_FORMATS)
+    fechaISemanasHorarioEspecial.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
+    fechaFSemanasHorarioEspecial = forms.DateField(widget=forms.TextInput(), input_formats=settings.DATE_INPUT_FORMATS)
+    fechaFSemanasHorarioEspecial.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
 
 
 # Aqui se recoge informacion terciara como:
@@ -82,14 +91,14 @@ class semanaHorarioEspecial_form(forms.Form):
 # TODO Adaptar formulario para funcionar dinamicamente, poder anadir campos
 class semanasExcluidas_form(forms.Form):
     motivoSemanasExcluidas = forms.ChoiceField(choices=MOTIVOSEXCLUIDAS)
-    fechaISemanasExcluidas = forms.DateField(widget=forms.TextInput())
-    fechaISemanasExcluidas.widget.attrs.update({'class': 'datepicker'})
+    fechaISemanasExcluidas = forms.DateField(widget=forms.TextInput(), input_formats=settings.DATE_INPUT_FORMATS)
+    fechaISemanasExcluidas.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
 
 # Aqui se recoge informacion terciaria como:
 # Dias de horario cambiado
 # TODO Adaptar formulario para funcionar dinamicamente, poder anadir campos
 class diasCambiados_form(forms.Form):
-    diaOriginal = forms.DateField(widget=forms.TextInput())
-    diaOriginal.widget.attrs.update({'class': 'datepicker'})
-    diaporQueSeCambia = forms.ChoiceField(choices=DIASEMANA)
+    diaOriginal = forms.DateField(widget=forms.TextInput(), input_formats=settings.DATE_INPUT_FORMATS)
+    diaOriginal.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
+    diaporQueSeCambia = forms.ChoiceField(choices=DIASEMANAL)
 

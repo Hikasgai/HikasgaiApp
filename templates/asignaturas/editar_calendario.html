@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-
+<script>
+  $(function() {
+    $( ".datepicker" ).pickadate({dateFormat: '%Y-%m-%d', 
+      selectMonths: true,
+      selectYears: 5});
+  });
+</script>
 <script type="text/javascript">
    function toggle_visibility(id) {
        var e = document.getElementById(id);
@@ -17,6 +23,10 @@
        if (id != "4")
           document.getElementById(4).style.display = 'none'
 
+       if (id!="5")
+       	  document.getElementById(5).style.display = 'none'
+
+
        if(e.style.display == 'block')
           e.style.display = 'none';
        else
@@ -28,25 +38,65 @@
 	<div class="row"></div>
 
 		<div class="row">
-		{{curso}}
+		<h2>Ikasturtea: {{curso}}</h2>
 		</div>
 
 		<div class="row">
-		{{fic1}}
+		{{fic1}},
 		{{ffc1}}
 		</div>
 
 		<div class="row">
-		{{fic2}}
+		{{fic2}},
 		{{ffc2}}
 		</div>
 
 		<div class="row">
-		{{dnl}}
-		{{dsc}}
-		{{phe}}
-		{{se}}
-		{{intd}}
+		Días no lectivos: 
+		{% for dianl in dnl%}
+			{{dianl}}
+		{% endfor %}
+		</div>
+
+		<div class="row">
+		Días sin clase: 
+
+		{% for dict in dsc %}
+
+		<p>{% for key, value in dict.items %}
+			{{value}}</p>
+			{% endfor %}
+		{% endfor %}
+		</div>
+
+		<div class="row"> 
+
+		Periodos de horario espacial: 
+		{% for dict in phe %}
+			<p>{% for key, value in dict.items %}
+			{{value}}
+			{% endfor %}</p>
+		{% endfor %}
+		</div>
+
+		<div class="row">
+		Semanas excluidas: 
+		{% for dict in se%}
+
+		<p>{% for key, value in dict.items %}
+			{{value}}</p>
+			{% endfor %}
+		{% endfor %}
+		</div>
+
+		<div class="row">
+		Días con horario intercambiado:
+		{% for dict in intd %}
+
+		<p>{% for key, value in dict.items %}
+			{{value}}</p>
+			{% endfor %}
+		{% endfor %}
 		</div>
 
 		<div class="row">
@@ -70,7 +120,7 @@
   		</form>
 
 		<div class="row">
-			<button id="semanahorarioespecial" onClick="toggle_visibility(3)">Añadir semana especial</button>
+			<button id="semanahorarioespecial" onClick="toggle_visibility(3)">Añadir periodo especial</button>
 		</div>
 
   		<form id="3" class="col s12" style="display: none" action="periodoshorarioespecial" method="POST" enctype="multipart/form-data">
@@ -79,15 +129,24 @@
 		<button id="create" class="btn waves-effect waves-light">Enviar</button>
   		</form>
 
-
-
 		<div class="row">
-			<button id="semanahorarioespecial" onClick="toggle_visibility(4)">Añadir dias cambiados</button>
+			<button id="periodohorarioespecial" onClick="toggle_visibility(4)">Añadir dias cambiados</button>
 		</div>
 
   		<form id="4" class="col s12" style="display: none" action="intercambiodias" method="POST" enctype="multipart/form-data">
   		{% csrf_token %}
   		{{diasCambiados_form.as_p}}
+		<button id="create" class="btn waves-effect waves-light">Enviar</button>
+  		</form>
+
+
+  		<div class="row">
+			<button id="semanaexcluida" onClick="toggle_visibility(5)">Añadir semana excluida</button>
+		</div>
+
+  		<form id="5" class="col s12" style="display: none" action="semanaexcluida" method="POST" enctype="multipart/form-data">
+  		{% csrf_token %}
+  		{{semanasExcluidas_form.as_p}}
 		<button id="create" class="btn waves-effect waves-light">Enviar</button>
   		</form>
 

@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block page_title %}
-Diseñar calendario
+Crear calendario
 {% endblock %}
 {% block script %}
 <script>
   $(function() {
-    $( ".datepicker" ).pickadate({dateFormat: 'yyyy/mm/dd', 
+    $( ".datepicker" ).pickadate({dateFormat: '%Y-%m-%d', 
       selectMonths: true,
       selectYears: 5});
   });

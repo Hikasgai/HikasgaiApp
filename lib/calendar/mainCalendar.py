@@ -13,17 +13,19 @@ def createCalendarJson(dataDict):
     Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre_year'],dataDict['inicioSegundoCuatrimestre_month'],dataDict['inicioSegundoCuatrimestre_day'])
     Fc2 = dateFormat(dataDict['finSegundoCuatrimestre_year'],dataDict['finSegundoCuatrimestre_month'],dataDict['finSegundoCuatrimestre_day'])
     """
-    #Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre'])
-    #Fc1 = dateFormat(dataDict['finPrimerCuatrimestre'])
-    #Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre'])
-    #Fc2 = dateFormat(dataDict['finSegundoCuatrimestre'])
+    Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre'])
+    Fc1 = dateFormat(dataDict['finPrimerCuatrimestre'])
+    Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre'])
+    Fc2 = dateFormat(dataDict['finSegundoCuatrimestre'])
 
+    #Propositos de testing
+    '''
     Ic1 = '2000/10/01 MON'
     Fc1 = '2000/10/01 MON'
     Ic2 = '2000/10/01 MON'
     Fc2 = '2000/10/01 MON'
+    '''
 
-    str(Ic1)
 
     data={
         'cursoAcademico' : dataDict['cursoAcademico'],
@@ -111,8 +113,8 @@ def anadirDiasNoLectivos(dataDict, data):
 
 def anadirDiasSinClase(dataDict, data):
     
-    #PLACEHOLDER
-    fecha = "2016/07/05 MO"
+    
+    fecha = dateFormat(dataDict['fechaDiaSinClase'])
     dia={
         'motivo': dataDict['motivoDiasSinClase'],
         'fecha': fecha
@@ -123,9 +125,8 @@ def anadirDiasSinClase(dataDict, data):
 
 def anadirPeriodosHorarioEspecial(dataDict,data):
 
-    #PLACEHOLDER
-    fechaI = "2016/01/01 MO" 
-    fechaF = "2016/01/01 MO"
+    fechaI = dateFormat(dataDict['fechaISemanasHorarioEspecial'])
+    fechaF = dateFormat(dataDict['fechaFSemanasHorarioEspecial'])
 
     periodo={
         'fechaInicio':fechaI,
@@ -136,10 +137,22 @@ def anadirPeriodosHorarioEspecial(dataDict,data):
     return data
 
 
+def anadirSemanasExcluidas(dataDict, data):
+    
+    fechaI = dateFormat(dataDict['fechaISemanasExcluidas'])
+
+    semana={
+        'primerDiaSemana': fechaI,
+        'motivo': dataDict['motivoSemanasExcluidas']
+    }
+    data['semanasExcluidas'].append(semana)
+    return data
+
+
+
 def anadirDiasIntercambio(dataDict, data):
     
-    #PLACEHOLDER
-    fecha = "2016/01/01 MO"
+    fecha = dateFormat(dataDict['diaOriginal'])
 
     dia={
         'diaOriginal':fecha,
@@ -150,39 +163,6 @@ def anadirDiasIntercambio(dataDict, data):
 
 
 """
-#Anadir dias sin clase
-def anadirDiasSinClase(dataDict, data):
-    fecha = dateFormat(dataDict['Fechadiasinclase1_year'],dataDict['Fechadiasinclase1_month'],dataDict['Fechadiasinclase1_day'])
-    dia={
-        'motivo': dataDict['Motivodiassinclase1'],
-        'fecha': fecha
-    }
-	data['diasSinClase'].append(dia)
-    return data
-
-#Anadir periodos de horario especial
-def anadirHorarioEspecial(dataDict,data):
-    fechaI = dateFormat(dataDict['Fechaisemanashorarioespecial1_year'],dataDict['Fechaisemanashorarioespecial1_month'],dataDict['Fechaisemanashorarioespecial1_day'])
-    fechaF = dateFormat(dataDict['Fechafsemanashorarioespecial1_year'],dataDict['Fechafsemanashorarioespecial1_month'],dataDict['Fechafsemanashorarioespecial1_day'])
-
-    periodo={
-        'fechaInicio':fechaI,
-        'fechaFin':fechaF,
-        'motivo': dataDict['Motivosemanashorarioespecial1']
-    }
-    data['periodosHorarioEspecial'].append(periodo)
-    return data
-
-#Anadir semanas excluidas
-def anadirSemanasExcluidas(dataDict, data):
-    fechaI = dateFormat(dataDict['Fechaisemanasexcluidas1_year'],dataDict['Fechaisemanasexcluidas1_month'],dataDict['Fechaisemanasexcluidas1_day'])
-
-    semana={
-        'primerDiaSemana': fechaI,
-        'motivo': dataDict['Motivosemanasexcluidas1']
-    }
-    data['semanasExcluidas'].append(semana)
-    return data
 
 #Anadir dias de horario intercambiado
 def anadirDiasIntercambio(dataDict, dias):
