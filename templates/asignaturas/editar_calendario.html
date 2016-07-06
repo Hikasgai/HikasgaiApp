@@ -64,8 +64,8 @@
 		{% for dict in dsc %}
 
 		<p>{% for key, value in dict.items %}
-			{{value}}</p>
-			{% endfor %}
+			{{value}}
+			{% endfor %}</p>
 		{% endfor %}
 		</div>
 
@@ -150,6 +150,7 @@
 		<button id="create" class="btn waves-effect waves-light">Enviar</button>
   		</form>
 
+  		{{ical}}
 
   	</div>
 </div>

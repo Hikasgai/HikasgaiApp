@@ -3,7 +3,6 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 from .forms import course_form, diasNoLectivos_form, diasSinClase_form, semanaHorarioEspecial_form, semanasExcluidas_form, diasCambiados_form
-from asignaturas.views import ContactWizard
 
 urlpatterns = [
 #	url(r'^calendario', views.crear_calendario, name='calendario'),
@@ -14,6 +13,5 @@ urlpatterns = [
     url(r'^diassinclase$', views.dias_sin_clase, name='diassinclase'),
     url(r'^periodoshorarioespecial$', views.periodos_horario_especial, name='periodoshorarioespecial'),
     url(r'^semanaexcluida$', views.semanas_excluidas, name='semana_excluida'),
-    url(r'^intercambiodias$', views.intercambio_dias, name='intercambiodias'),
-    url(r'^formwizard$', ContactWizard.as_view([course_form,diasNoLectivos_form,diasSinClase_form,semanaHorarioEspecial_form,semanasExcluidas_form,diasCambiados_form]),name='formwizard')
+    url(r'^intercambiodias$', views.intercambio_dias, name='intercambiodias')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

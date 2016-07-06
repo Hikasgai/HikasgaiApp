@@ -59,6 +59,27 @@ class course_form(forms.Form):
     finSegundoCuatrimestre = forms.DateField(widget=forms.TextInput(), required='true', input_formats=settings.DATE_INPUT_FORMATS)
     finSegundoCuatrimestre.widget.attrs.update({'class': 'datepicker'}, input_formats=settings.DATE_INPUT_FORMATS)
 
+    def clean(self):
+        super(course_form, self).clean()
+        if self.is_valid():
+            form_data = self.cleaned_data
+            if form_data['inicioPrimerCuatrimestre'] > form_data['finPrimerCuatrimestre']:
+                self._errors["inicioPrimerCuatrimestre"] = ["Fechas de incio primer cuatrimestre incorrecta!"]
+                self._errors["finPrimerCuatrimestre"] = ["Fechas de fin primer cuatrimestre incorrecta!"]
+                del form_data['finPrimerCuatrimestre']
+                del form_data['inicioPrimerCuatrimestre']
+            elif form_data['inicioSegundoCuatrimestre'] > form_data['finSegundoCuatrimestre']:
+                self._errors["inicioSegundoCuatrimestre"] = ["Fechas de segundo cuatrimestre incorrectas!"]
+                self._errors["finSegundoCuatrimestre"] = ["Fechas de fin primer cuatrimestre incorrecta!"]
+                del form_data['finSegundoCuatrimestre']
+                del form_data['inicioSegundoCuatrimestre']
+            elif form_data['inicioSegundoCuatrimestre'] < form_data['finPrimerCuatrimestre']:
+                self._errors['__all__'] = ErrorList(["Cuatrimestres solapados!"])
+                del form_data['inicioPrimerCuatrimestre']
+                del form_data['inicioSegundoCuatrimestre']
+            else:
+                return form_data
+
 # Aqui se recoge informacion secundaria como:
 # Dias periodicos din clase, fines de semana, etc
 # TODO Adaptar formulario para funcionar dinamicamente, poder anadir campos

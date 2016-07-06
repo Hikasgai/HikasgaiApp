@@ -27,7 +27,7 @@ def createCalendarJson(dataDict):
     '''
 
 
-    data={
+    data = {"calendario":{
         'cursoAcademico' : dataDict['cursoAcademico'],
         'inicioCuatrimestreUno' : Ic1,
         'finCuatrimestreUno' : Fc1,
@@ -38,7 +38,7 @@ def createCalendarJson(dataDict):
         'periodosHorarioEspecial':[],
         'semanasExcluidas':[],
         'intercambioDias':[]
-    }
+    }}
     return json.dumps(data)
 
 def transformarJSON(datos):
@@ -107,7 +107,7 @@ def dateFormat(date):
 
 #Anadir dias semanales no lectivos (MO, TU, WE, TH...)
 def anadirDiasNoLectivos(dataDict, data):
-    data['diasSemanalesNoLectivos'].append(dataDict['diasSemanalesNoLectivos'])
+    data['calendario']['diasSemanalesNoLectivos'].append(dataDict['diasSemanalesNoLectivos'])
     return data
 
 
@@ -119,7 +119,7 @@ def anadirDiasSinClase(dataDict, data):
         'motivo': dataDict['motivoDiasSinClase'],
         'fecha': fecha
     }
-    data['diasSinClase'].append(dia)
+    data['calendario']['diasSinClase'].append(dia)
     return data
 
 
@@ -133,7 +133,7 @@ def anadirPeriodosHorarioEspecial(dataDict,data):
         'fechaFin':fechaF,
         'motivo': dataDict['motivoSemanasHorarioEspecial']
     }
-    data['periodosHorarioEspecial'].append(periodo)
+    data['calendario']['periodosHorarioEspecial'].append(periodo)
     return data
 
 
@@ -145,7 +145,7 @@ def anadirSemanasExcluidas(dataDict, data):
         'primerDiaSemana': fechaI,
         'motivo': dataDict['motivoSemanasExcluidas']
     }
-    data['semanasExcluidas'].append(semana)
+    data['calendario']['semanasExcluidas'].append(semana)
     return data
 
 
@@ -158,20 +158,5 @@ def anadirDiasIntercambio(dataDict, data):
         'diaOriginal':fecha,
         'diaPorQueSeCambia':dataDict['diaporQueSeCambia']
     }
-    data['intercambioDias'].append(dia)
+    data['calendario']['intercambioDias'].append(dia)
     return data
-
-
-"""
-
-#Anadir dias de horario intercambiado
-def anadirDiasIntercambio(dataDict, dias):
-    fecha = dateFormat(dataDict['diaOriginal1_year'],dataDict['diaOriginal1_month'],dataDict['diaOriginal1_day'])
-
-    dia={
-        'diaOriginal':fecha,
-        'diaPorQueSeCambia':dataDict['diaporQueSeCambia1']
-    }
-    data['intercambioDias'].append(dia)
-    return data
-"""
