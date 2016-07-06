@@ -64,13 +64,11 @@ class course_form(forms.Form):
         if self.is_valid():
             form_data = self.cleaned_data
             if form_data['inicioPrimerCuatrimestre'] > form_data['finPrimerCuatrimestre']:
-                self._errors["inicioPrimerCuatrimestre"] = ["Fechas de incio primer cuatrimestre incorrecta!"]
-                self._errors["finPrimerCuatrimestre"] = ["Fechas de fin primer cuatrimestre incorrecta!"]
+                self._errors['__all__'] = ["Fechas de incio/fin primer cuatrimestre incorrecta!"]
                 del form_data['finPrimerCuatrimestre']
                 del form_data['inicioPrimerCuatrimestre']
             elif form_data['inicioSegundoCuatrimestre'] > form_data['finSegundoCuatrimestre']:
-                self._errors["inicioSegundoCuatrimestre"] = ["Fechas de segundo cuatrimestre incorrectas!"]
-                self._errors["finSegundoCuatrimestre"] = ["Fechas de fin primer cuatrimestre incorrecta!"]
+                self._errors['__all__'] = ["Fechas de segundo cuatrimestre incorrectas!"]
                 del form_data['finSegundoCuatrimestre']
                 del form_data['inicioSegundoCuatrimestre']
             elif form_data['inicioSegundoCuatrimestre'] < form_data['finPrimerCuatrimestre']:

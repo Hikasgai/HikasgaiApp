@@ -19,6 +19,7 @@ Crear calendario
 <div class="row">
   <form class="col s12" action="" method="POST" enctype="multipart/form-data">
   {% csrf_token %}
+  {{errors}}
   {{course_form.as_p}}
   <div class="row"></div>
 <button id="create" class="btn waves-effect waves-light">Generar calendario</button>

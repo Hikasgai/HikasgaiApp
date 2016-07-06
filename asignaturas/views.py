@@ -22,14 +22,21 @@ def user_courses(request):
 #	return render(request, 'asignaturas/course_detail.html')
 @csrf_exempt
 def crear_calendario(request):
-	if request.method == 'GET':
+    if request.method == 'GET':
 		return render(request, 'asignaturas/disenar_calendario.html', {'course_form' : course_form()})
-	else:
-		resultados = request.POST
-		calendarFile = mainCalendar.createCalendarJson(resultados)
-        request.session['json'] = json.loads(calendarFile)
+    
+    else:
+        courseform=course_form(data=request.POST)
+        if courseform.is_valid():
+            resultados = request.POST
+            calendarFile = mainCalendar.createCalendarJson(resultados)
+            request.session['json'] = json.loads(calendarFile)
+            return HttpResponseRedirect("/editarcalendario")
+        else: 
+            print courseform.errors
+            return HttpResponseRedirect("/crearcalendario")
 
-        return HttpResponseRedirect("/editarcalendario")
+        
 
 @csrf_exempt
 def editar_calendario(request):
