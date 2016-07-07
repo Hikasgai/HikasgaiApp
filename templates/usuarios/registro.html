@@ -1,7 +1,72 @@
 {% extends "base.html" %}
+
+{% block script %}
+
+<script>
+$(function(){
+    document.getElementById("id_email").keyup(function () {
+    var email = document.getElementById("id_email").value;
+    if (email.indexOf("@ikasle.ehu.eus") > -1) {
+        document.getElementById("formAlumno").setAttribute("class", "show");
+        document.getElementById("tipoformulario").setAttribute("value", "alumno");
+        document.getElementById("formProfesor").setAttribute("class", "hide");
+        return 0;
+    }
+    else if(email.indexOf("@ehu.eus") > -1) {
+        document.getElementById("formProfesor").setAttribute("class", "show");
+        document.getElementById("tipoformulario").setAttribute("value", "profesor");
+        document.getElementById("formAlumno").setAttribute("class", "hide");
+        return 0;
+    }
+    else{
+        document.getElementById("tipoformulario").setAttribute("value", "not_valid");
+        document.getElementById("formAlumno").setAttribute("class", "hide");
+        document.getElementById("formProfesor").setAttribute("class", "hide");
+        return 1;
+    }
+    });
+});
+</script>
+<script>
+$(function(){
+    document.getElementById("id_grado").keyup(function () {
+        var availableTags = [
+      "ActionScript",
+      "AppleScript",
+      "Asp",
+      "BASIC",
+      "C",
+      "C++",
+      "Clojure",
+      "COBOL",
+      "ColdFusion",
+      "Erlang",
+      "Fortran",
+      "Groovy",
+      "Haskell",
+      "Java",
+      "JavaScript",
+      "Lisp",
+      "Perl",
+      "PHP",
+      "Python",
+      "Ruby",
+      "Scala",
+      "Scheme"
+    ];
+    $( document.getElementById("id_grado") ).autocomplete({
+        source: function(request, response) {
+            var results = $.ui.autocomplete.filter(availableTags, request.term);
+        response(results.slice(0, 5));
+        }
+    });
+  });
+});
+</script>
+{% endblock %}
+
 {% block content %}
 
-<div class="container center-align">
 <div class="row"></div>
 <h6 class="left-align">Todos los campos son obligatorios</h6>
   <form action="" method="POST" enctype="multipart/form-data">
@@ -24,5 +89,4 @@
     <button type="submit" class="waves-effect waves-light btn-large u-full-width">Registrarse</button>
     </div>
   </form>
-</div>
 {% endblock %}

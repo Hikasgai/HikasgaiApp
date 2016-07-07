@@ -11440,62 +11440,6 @@ return jQuery;
 var $ = require('jquery'); //Importo la libreria jquery
 
 
-$( document.getElementById("id_email") ).keyup(function () {
-	var email = document.getElementById("id_email").value;
-	if (email.indexOf("@ikasle.ehu.eus") > -1) {
-		document.getElementById("formAlumno").setAttribute("class", "show");
-		document.getElementById("tipoformulario").setAttribute("value", "alumno");
-		document.getElementById("formProfesor").setAttribute("class", "hide");
-		return 0;
-	}
-	else if(email.indexOf("@ehu.eus") > -1) {
-		document.getElementById("formProfesor").setAttribute("class", "show");
-		document.getElementById("tipoformulario").setAttribute("value", "profesor");
-		document.getElementById("formAlumno").setAttribute("class", "hide");
-		return 0;
-	}
-	else{
-		document.getElementById("tipoformulario").setAttribute("value", "not_valid");
-		document.getElementById("formAlumno").setAttribute("class", "hide");
-		document.getElementById("formProfesor").setAttribute("class", "hide");
-		return 1;
-	}
-})
-
-$( document.getElementById("id_grado") ).keyup(function () {
-	    var availableTags = [
-      "ActionScript",
-      "AppleScript",
-      "Asp",
-      "BASIC",
-      "C",
-      "C++",
-      "Clojure",
-      "COBOL",
-      "ColdFusion",
-      "Erlang",
-      "Fortran",
-      "Groovy",
-      "Haskell",
-      "Java",
-      "JavaScript",
-      "Lisp",
-      "Perl",
-      "PHP",
-      "Python",
-      "Ruby",
-      "Scala",
-      "Scheme"
-    ];
-    $( document.getElementById("id_grado") ).autocomplete({
-        source: function(request, response) {
-        	var results = $.ui.autocomplete.filter(availableTags, request.term);
-        response(results.slice(0, 5));
-    	}
-    });
-  });
-
-
 var descargarCalendario = function() {
   var loadingDiv = $(".loading")[0]; //Cacheo el el bloque donde ira el loading
 
@@ -11575,5 +11519,5 @@ var descargarCalendario = function() {
 
 exports.descargarCalendario = descargarCalendario;
 
-}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_ff4ec99.js","/")
+}).call(this,require("oMfpAn"),typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("buffer").Buffer,arguments[3],arguments[4],arguments[5],arguments[6],"/fake_d92048d9.js","/")
 },{"buffer":1,"jquery":5,"oMfpAn":4}]},{},[6])

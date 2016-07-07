@@ -40,18 +40,24 @@
           {% endif %}
     </div>
   </nav>
-  <div class="container">
-    <ul class="side-nav fixed" style="transform: translateX(0%)">
-      <li class="logo black"><img src="http://www.ehu.eus/upv-ehu-theme/images/logoehu.png" alt=""></li>
+  </header>
+    <nav>
+      <div class="nav-wrapper teal darken-4">
+        <ul id="nav-mobile" class="left hide-on-med-and-down">
       {% if user.is_authenticated %}
         <li class="bold"><a href="{% url 'asignaturas:courses' %}">Asignaturas</a></li>
         <li class="bold"><a href="#">Tareas</a></li>
         <li class="bold"><a href="#">Profesores</a></li>
     {% endif %}
-    <li class="bold"><a href="{% url 'asignaturas:crear_calendario' %}">Crear calendario</a></li>
-    <li class="bold"><a href="editarcalendario">Editar calendario</a></li>
-    </ul>
-    </header>
+    <li class="bold"><a class="waves-effect waves-light" href="{% url 'asignaturas:crear_calendario' %}">Crear calendario</a></li>
+    <li class="bold"><a class="waves-effect waves-light" href="editarcalendario">Editar calendario</a></li>
+        </ul>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+        {% block navlist %}
+        {% endblock %}
+        </ul>
+      </div>
+    </nav>
     <div class="container center-align">
     {% block content %}
     {% endblock %}

@@ -1,33 +1,110 @@
 {% extends "base.html" %}
+{% load fullcalendar_tags %}
 {% block page_title %}
 Crear calendario
 {% endblock %}
 {% block script %}
+
 <script>
-  $(function() {
-    $( ".datepicker" ).pickadate({dateFormat: '%Y-%m-%d', 
+$(function(){
+	$('.datepicker').pickadate({ 
       selectMonths: true,
       selectYears: 5});
-  });
+});
+
 </script>
+
+<script>
+$(function(){
+	document.getElementById("switch_cal").addEventListener("click", function () {
+  document.getElementById("switch_cal").setAttribute("class", "waves-effect waves-light hidden");
+  document.getElementById("switch_hor").setAttribute("class", "waves-effect waves-light");
+  document.getElementById("calendarmenu").setAttribute("class", "col hide-on-small-only m5 l4 left-align");
+  document.getElementById("schedulemenu").setAttribute("class", "col hide-on-small-only m5 l4 left-align hidden");
+	});
+});
+
+</script>
+<script>
+$(function(){
+document.getElementById("switch_hor").addEventListener("click", function () {
+  document.getElementById("switch_cal").setAttribute("class", "waves-effect waves-light");
+  document.getElementById("switch_hor").setAttribute("class", "waves-effect waves-light hidden");
+  document.getElementById("calendarmenu").setAttribute("class", "col hide-on-small-only m5 l4 left-align hidden");
+  document.getElementById("schedulemenu").setAttribute("class", "col hide-on-small-only m5 l4 left-align ");
+	});
+});
+</script>
+
+    {% fullcalendar_css %}
+    {% fullcalendar_print_css %}
+    {% fullcalendar_javascript %}
+
+    {% calendar_init event_url %}
+{% endblock %}
+
+{% block navlist %}
+    <li class="bold"><a id="switch_cal" class="waves-effect waves-light hidden">Modificar calendario</a></li>
+    <li class="bold"><a id="switch_hor" class="waves-effect waves-light">Modificar horarios</a></li>
 {% endblock %}
 
 {% block content %}
-<div class="container center-align">
 <div class="row"></div>
 
-<div class="row">
-  <form class="col s12" action="" method="POST" enctype="multipart/form-data">
-  {% csrf_token %}
-  {{errors}}
-  {{course_form.as_p}}
-  <div class="row"></div>
-<button id="create" class="btn waves-effect waves-light">Generar calendario</button>
-  </form>
-<a download="calendario.ics" id="downloadlink" style="display: none">Download</a>
-<span class="loading style-3 hidden"></span>  
-  </div>
-  </div>
+    <div class="row">
+    <div class="col s12 m7 l8">
+    {% calendar %}
 </div>
+    <div class="col hide-on-small-only m5 l4 left-align" id="calendarmenu" >
+      <div class="toc-wrapper">
+        <div style="height: 1px;">
+          <ul id="nav-mobile" class="section table-of-contents collapsible center-align" data-collapsible="expandable" style="overflow-y:auto; height: 550px; width:450px">
+            <li>
+            	<div class="collapsible-header waves-effect">Fechas básicas</div>
+            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            </li>
+            <li>
+            	<div class="collapsible-header waves-effect">Fechas básicas</div>
+            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            </li>
+            <li>
+            	<div class="collapsible-header waves-effect">Fechas básicas</div>
+            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            </li>
+            <li></li>
+            <li></li>
+            <li><div class="btn teal lighten-2 waves-effect waves-light">Guardar datos del calendario anual</div></li>
+            <li></li>
+            <li><div class="btn teal lighten-2 waves-effect waves-light">Descargar calendario anual</div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col hide-on-small-only m5 l4 left-align hidden" id="schedulemenu">
+      <div class="toc-wrapper">
+        <div style="height: 1px;">
+          <ul id="nav-mobile" class="section table-of-contents collapsible center-align" data-collapsible="expandable" style="overflow-y:auto; height: 550px; width:450px">
+            <li>
+            	<div class="collapsible-header waves-effect">Fechas básicas</div>
+            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            </li>
+            <li>
+            	<div class="collapsible-header waves-effect">Fechas básicas</div>
+            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            </li>
+            <li>
+            	<div class="collapsible-header waves-effect">Fechas básicas</div>
+            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            </li>
+            <li></li>
+            <li></li>
+            <li><div class="btn teal lighten-2 waves-effect waves-light">Guardar datos del horario semanal</div></li>
+            <li></li>
+            <li><div class="btn teal lighten-2 waves-effect waves-light">Descargar horario semanal</div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    </div>
 
 {% endblock %}
