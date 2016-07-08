@@ -7,12 +7,7 @@ import json
 # Input: diccionario con la informacion basica del calendario recibida del formulario
 # Output: calendario en formato JSON
 def createCalendarJson(dataDict):
-    """
-    Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre_year'],dataDict['inicioPrimerCuatrimestre_month'],dataDict['inicioPrimerCuatrimestre_day'])
-    Fc1 = dateFormat(dataDict['finPrimerCuatrimestre_year'],dataDict['finPrimerCuatrimestre_month'],dataDict['finPrimerCuatrimestre_day'])
-    Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre_year'],dataDict['inicioSegundoCuatrimestre_month'],dataDict['inicioSegundoCuatrimestre_day'])
-    Fc2 = dateFormat(dataDict['finSegundoCuatrimestre_year'],dataDict['finSegundoCuatrimestre_month'],dataDict['finSegundoCuatrimestre_day'])
-    """
+
     Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre'])
     Fc1 = dateFormat(dataDict['finPrimerCuatrimestre'])
     Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre'])
@@ -104,16 +99,43 @@ def dateFormat(date):
 
 
 # Anadir eventos al calendario progresivamente
+def editarInicioFinal(dataDict, data):
+    if data == None:
+        Ic1 = dateFormat(dataDict['inicioPrimerCuatrimestre'])
+        Fc1 = dateFormat(dataDict['finPrimerCuatrimestre'])
+        Ic2 = dateFormat(dataDict['inicioSegundoCuatrimestre'])
+        Fc2 = dateFormat(dataDict['finSegundoCuatrimestre'])
+        data = {"calendario":{
+            'cursoAcademico' : dataDict['cursoAcademico'],
+            'inicioCuatrimestreUno' : Ic1,
+            'finCuatrimestreUno' : Fc1,
+            'inicioCuatrimestreDos' : Ic2,
+            'finCuatrimestreDos' : Fc2,
+            'diasSemanalesNoLectivos':[],
+            'diasSinClase':[],
+            'periodosHorarioEspecial':[],
+            'semanasExcluidas':[],
+            'intercambioDias':[]
+        }}
+        return json.dumps(data)
+    else:
+        data['calendario']['cursoAcademico'] = dataDict['cursoAcademico']
+        data['calendario']['inicioCuatrimestreUno'] = dateFormat(dataDict['inicioPrimerCuatrimestre'])
+        data['calendario']['finCuatrimestreUno'] = dateFormat(dataDict['finPrimerCuatrimestre'])
+        data['calendario']['inicioCuatrimestreDos'] = dateFormat(dataDict['inicioSegundoCuatrimestre'])
+        data['calendario']['finCuatrimestreDos'] = dateFormat(dataDict['finSegundoCuatrimestre'])
+    return data
 
 #Anadir dias semanales no lectivos (MO, TU, WE, TH...)
 def anadirDiasNoLectivos(dataDict, data):
     data['calendario']['diasSemanalesNoLectivos'].append(dataDict['diasSemanalesNoLectivos'])
     return data
 
+def quitarDiasNoLectivos(dia, data):
+    data['calendario']['diasSemanalesNoLectivos'].remove(dia)
+    return data
 
 def anadirDiasSinClase(dataDict, data):
-    
-    
     fecha = dateFormat(dataDict['fechaDiaSinClase'])
     dia={
         'motivo': dataDict['motivoDiasSinClase'],
@@ -122,12 +144,13 @@ def anadirDiasSinClase(dataDict, data):
     data['calendario']['diasSinClase'].append(dia)
     return data
 
+def quitarDiasSinClase(dia, data):
+    return data['calendario']['diasSinClase'].remove(dia)
+
 
 def anadirPeriodosHorarioEspecial(dataDict,data):
-
     fechaI = dateFormat(dataDict['fechaISemanasHorarioEspecial'])
     fechaF = dateFormat(dataDict['fechaFSemanasHorarioEspecial'])
-
     periodo={
         'fechaInicio':fechaI,
         'fechaFin':fechaF,
@@ -138,9 +161,7 @@ def anadirPeriodosHorarioEspecial(dataDict,data):
 
 
 def anadirSemanasExcluidas(dataDict, data):
-    
     fechaI = dateFormat(dataDict['fechaISemanasExcluidas'])
-
     semana={
         'primerDiaSemana': fechaI,
         'motivo': dataDict['motivoSemanasExcluidas']
@@ -151,9 +172,7 @@ def anadirSemanasExcluidas(dataDict, data):
 
 
 def anadirDiasIntercambio(dataDict, data):
-    
     fecha = dateFormat(dataDict['diaOriginal'])
-
     dia={
         'diaOriginal':fecha,
         'diaPorQueSeCambia':dataDict['diaporQueSeCambia']

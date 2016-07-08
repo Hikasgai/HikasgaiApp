@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Asignaturas
+{% endblock %}
+
+{% block content %}
+<div class="container center-align">
+  <div class="row"><button id="curso1" onClick="toggle_visibility('asignaturasCurso1')">Asignaturas de primero</button> </div>
+  <div class="row"><button id="curso2" onClick="toggle_visibility('asignaturasCurso2')">Asignaturas de segundo</button> </div>
+  <div class="row"><button id="curso3" onClick="toggle_visibility('asignaturasCurso3')">Asignaturas de tercero</button> </div>
+  <div class="row"><button id="curso4" onClick="toggle_visibility('asignaturasCurso4')">Asignaturas de cuarto</button> </div>
+  <div class="row"><button id="cursoX" onClick="toggle_visibility('asignaturasCursoX')">Asignaturas optativas</button> </div>
+
+  <div id="asignaturasCurso1" style='display:none'>
+    {% for asignatura in asign %}
+      {% if asignatura.curso == "1" %}
+        <button id={{asignatura.codigo}}> {{asignatura.nombreAsignatura}} </button>
+        <br/>
+        <hr/>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div id="asignaturasCurso2" style='display:none'>
+    {% for asignatura in asign %}
+      {% if asignatura.curso == "2" %}
+        <button id={{asignatura.codigo}} onClick=''> {{asignatura.nombreAsignatura}} </button>
+        <br/>
+        <hr/>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div id="asignaturasCurso3" style='display:none'>
+    {% for asignatura in asign %}
+      {% if asignatura.curso == "3" %}
+        <button id={{asignatura.codigo}}> {{asignatura.nombreAsignatura}} </button>
+        <br/>
+        <hr/>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div id="asignaturasCurso4" style='display:none'>
+    {% for asignatura in asign %}
+      {% if asignatura.curso == "4" %}
+        <button id={{asignatura.codigo}}> {{asignatura.nombreAsignatura}} </button>
+        <br/>
+        <hr/>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div id="asignaturasCursoX" style='display:none'>
+    {% for asignatura in asign %}
+      {% if asignatura.curso == "X" %}
+        <button id={{asignatura.codigo}}> {{asignatura.nombreAsignatura}} </button>
+        <br/>
+        <hr/>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  <div id='temp' style='display:none'></div>
+
+</div>
+
+<script type="text/javascript">
+
+  var data = "";
+
+  function toggle_visibility(id) {
+      var e = document.getElementById(id);
+
+       if (id != "asignaturasCurso1")
+          document.getElementById("asignaturasCurso1").style.display = 'none';
+
+       if (id != "asignaturasCurso2")
+          document.getElementById("asignaturasCurso2").style.display = 'none';
+
+       if (id != "asignaturasCurso3")
+          document.getElementById("asignaturasCurso3").style.display = 'none';
+
+       if (id != "asignaturasCurso4")
+          document.getElementById("asignaturasCurso4").style.display = 'none';
+
+       if (id != "asignaturasCursoX")
+          document.getElementById("asignaturasCursoX").style.display = 'none';
+
+
+       if(e.style.display == 'block')
+          e.style.display = 'none';
+       else
+          e.style.display = 'block';
+   }
+
+
+
+</script>
+ 
+{% endblock %}

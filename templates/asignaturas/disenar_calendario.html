@@ -44,8 +44,8 @@ document.getElementById("switch_hor").addEventListener("click", function () {
 {% endblock %}
 
 {% block navlist %}
-    <li class="bold"><a id="switch_cal" class="waves-effect waves-light hidden">Modificar calendario</a></li>
-    <li class="bold"><a id="switch_hor" class="waves-effect waves-light">Modificar horarios</a></li>
+    <li class="bold"><a id="switch_cal" class="waves-effect waves-light hidden">Modificar horarios</a></li>
+    <li class="bold"><a id="switch_hor" class="waves-effect waves-light">Modificar calendario</a></li>
 {% endblock %}
 
 {% block content %}
@@ -86,21 +86,94 @@ document.getElementById("switch_hor").addEventListener("click", function () {
           <ul id="nav-mobile" class="section table-of-contents collapsible center-align" data-collapsible="expandable" style="overflow-y:auto; height: 550px; width:450px">
             <li>
             	<div class="collapsible-header waves-effect">Fechas básicas</div>
-            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            	<div class="collapsible-body">
+
+              <form id="0" class="col s12" action="iniciofinal" method="POST" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{course_form.as_p}}
+            <button id="create" class="btn waves-effect waves-light">Enviar</button>
+              </form>
+              </div>
             </li>
             <li>
-            	<div class="collapsible-header waves-effect">Fechas básicas</div>
-            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            	<div class="collapsible-header waves-effect">Días no lectivos</div>
+            	<div class="collapsible-body">
+              {% for dianl in dnl%}
+                <form style="display:inline" action="quitardiasnolectivos" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <button name="dia" type="submit" value={{dianl}}>{{dianl}}</button>
+                </form>
+              {% endfor %}
+
+              <form id="1" class="col s12" action="diasnolectivos" method="POST" enctype="multipart/form-data">
+               {% csrf_token %}
+               {{diasNoLectivos_form.as_p}}
+               <button id="create" class="btn waves-effect waves-light">Enviar</button>
+               </form></div>
             </li>
             <li>
-            	<div class="collapsible-header waves-effect">Fechas básicas</div>
-            	<div class="collapsible-body">{{course_form.as_p}}</div>
+            	<div class="collapsible-header waves-effect">Días sin clase</div>
+            	<div class="collapsible-body">
+               {% for dict in dsc %}
+                <form style="display:inline" action="quitardiassinclase" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <button name="dia" type="submit" value={{dict}}>
+                    {% for key, value in dict.items %}
+                      {{value}}
+                    {% endfor %}
+                  </button>
+                </form>
+                
+              {% endfor %}
+
+                <form id="2" class="col s12" action="diassinclase" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{diasSinClase_form.as_p}}
+                <button id="create" class="btn waves-effect waves-light">Enviar</button>
+                </form>
+
+              </div>
             </li>
-            <li></li>
+            <li>
+              <div class="collapsible-header waves-effect">Periodos con horario especial</div>
+              <div class="collapsible-body">
+                
+<form id="3" class="col s12" action="periodoshorarioespecial" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{semanaHorarioEspecial_form.as_p}}
+    <button id="create" class="btn waves-effect waves-light">Enviar</button>
+      </form>
+
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header waves-effect">Días cambiados</div>
+              <div class="collapsible-body">
+<form id="4" class="col s12" action="intercambiodias" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{diasCambiados_form.as_p}}
+    <button id="create" class="btn waves-effect waves-light">Enviar</button>
+      </form>
+
+              </div>
+            </li>
+            <li>
+              <div class="collapsible-header waves-effect">Semanas excluidas</div>
+              <div class="collapsible-body">
+                
+<form id="5" class="col s12" action="semanaexcluida" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{semanasExcluidas_form.as_p}}
+    <button id="create" class="btn waves-effect waves-light">Enviar</button>
+      </form>
+
+              </div>
+            </li>
+
             <li></li>
             <li><div class="btn teal lighten-2 waves-effect waves-light">Guardar datos del horario semanal</div></li>
             <li></li>
-            <li><div class="btn teal lighten-2 waves-effect waves-light">Descargar horario semanal</div></li>
+            <li> <input type="submit" class="btn teal lighten-2 waves-effect waves-light" value="Descargar calendario anual" onclick="window.location='/descargarcalendario';" /></li>
           </ul>
         </div>
       </div>
